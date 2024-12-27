@@ -9,5 +9,5 @@ class LocationModel extends BaseModel
 	protected $table      = 'locations';
 	protected $primaryKey = 'id';
 	protected $returnType     = 'object';
-	protected $allowedFields = ['name'];
+	protected $allowedFields = ['name','status'];
 }

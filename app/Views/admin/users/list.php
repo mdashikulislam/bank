@@ -103,7 +103,7 @@
 
 
 
-    <?= $this->endSection() ?>
+<?= $this->endSection() ?>
 <?= $this->section('js') ?>
 
 <script>

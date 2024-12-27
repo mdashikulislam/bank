@@ -130,6 +130,7 @@ $lang['labels'] = "Labels";
 $lang['important'] = "Important";
 $lang['warning'] = "Warning";
 $lang['informational'] = "Informational";
+$lang['status'] = "Status";
 
 $lang['id'] = "ID";
 $lang['action'] = "Action";

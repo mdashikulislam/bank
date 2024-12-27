@@ -1256,3 +1256,14 @@ function supported_languages()
 
 	//    die(var_dump($list));
 }
+if (!function_exists('getLocationDropdown')){
+    function getLocationDropdown($selected = ''  )
+    {
+        $locations = model('App\Models\LocationModel')->getByWhere(['status' => 1]);
+        $html = '<option value="">Select Location</option>';
+        foreach ($locations as $location) {
+            $html .= '<option value="'.$location->id.'" '.($selected == $location->id ? 'selected' : '').'>'.$location->name.'</option>';
+        }
+        return $html;
+    }
+}

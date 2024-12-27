@@ -9,5 +9,5 @@ class BankModel extends BaseModel
 	protected $table      = 'banks';
 	protected $primaryKey = 'id';
 	protected $returnType     = 'object';
-	protected $allowedFields = ['name'];
+	protected $allowedFields = ['name','location_id','status'];
 }

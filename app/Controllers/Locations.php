@@ -105,6 +105,12 @@ class Locations extends AdminBaseController
         model('App\Models\ActivityLogModel')->add("Location #$id Deleted by User:".logged('name'));
         return redirect()->to('locations/add')->with('notifySuccess', 'Location has been Deleted Successfully');
     }
+
+    public function change_status($id = 0)
+    {
+        (new LocationModel())->update($id, ['status' => get('status') == 'true' ? 1 : 0 ]);
+        echo 'done';
+    }
 }
 
 /* End of file Locations.php */
