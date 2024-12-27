@@ -24,6 +24,7 @@
 <section class="content">
     <div class="row">
         <div class="col-lg-8 col-12">
+            <?php if (hasPermissions('locations_add')) ?>
             <div class="card">
                 <div class="card-header with-border">
                     <h3 class="card-title"><?php echo lang('App.locations_add') ?></h3>
@@ -44,6 +45,7 @@
                 </div>
                 <?php echo form_close(); ?>
             </div>
+            <?php if (hasPermissions('locations_list')): ?>
             <div class="card">
                 <div class="card-header with-border">
                     <h3 class="card-title"><?php echo lang('App.locations') ?></h3>
@@ -76,13 +78,11 @@
                     </table>
                 </div>
             </div>
-
+            <?php endif; ?>
         </div>
     </div>
 </section>
 <!-- /.content -->
 <?= $this->endSection() ?>
 <?= $this->section('js') ?>
-
-
 <?= $this->endSection() ?>
