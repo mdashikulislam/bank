@@ -72,6 +72,7 @@ class Locations extends AdminBaseController
     public function update($id = 0)
     {
         $this->permissionCheck('locations_edit');
+        postAllowed();
         $location = (new LocationModel())->find($id);
         if (empty($location)){
             return redirect()->to('/locations/add')->with('notifyError', 'Location not found');

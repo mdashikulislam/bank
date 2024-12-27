@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\AdminBaseController;
 use App\Models\BankModel;
 use App\Models\EmailTemplateModel;
+use App\Models\LocationModel;
 
 class Banks extends AdminBaseController
 {
@@ -30,7 +31,7 @@ class Banks extends AdminBaseController
 	public function add()
 	{
 		$this->permissionCheck('banks_add');
-        $banks = (new BankModel())->findAll();
+        $banks = (new BankModel())->getAllWithLocations();
 		return view('admin/banks/add',compact('banks'));
 	}
 
@@ -43,7 +44,7 @@ class Banks extends AdminBaseController
         $data = $request->getPost();
         $data = array_map('trim', $data);
         $validation->setRules([
-            'name' => 'required|min_length[3]|is_unique[banks.name]',
+            'name' => 'required|min_length[3]',
             'location_id' => 'required',
         ]);
         if (!$validation->run($data)) {
@@ -58,6 +59,55 @@ class Banks extends AdminBaseController
             return redirect()->back()->with('notifyError', 'Failed to create bank: ' . $e->getMessage());
         }
 	}
+    public function edit($id = 0)
+    {
+        $this->permissionCheck('banks_edit');
+        $bank = (new BankModel())->find($id);
+        if (empty($bank)){
+            return redirect()->to('/banks/add')->with('notifyError', 'Bank not found');
+        }
+        return view('admin/banks/edit', compact('bank'));
+    }
+
+    public function update($id = 0)
+    {
+        $this->permissionCheck('banks_edit');
+        postAllowed();
+        $bank = (new BankModel())->find($id);
+        if (empty($bank)){
+            return redirect()->to('/banks/add')->with('notifyError', 'Bank not found');
+        }
+        $validation = service('validation');
+        $request    = service('request');
+        $data = $request->getPost();
+        $data = array_map('trim', $data);
+        $validation->setRules([
+            'name' => 'required|min_length[3]',
+            'location_id' => 'required',
+        ]);
+        if (!$validation->run($data)) {
+            return redirect()->back()->withInput()->with('notifyError', implode(', ', $validation->getErrors()));
+        }
+        try{
+            (new BankModel())->update($id, $data);
+            model('App\Models\ActivityLogModel')->add("Bank #$id Updated by User:".logged('name'));
+            return redirect()->to('banks/add')->with('notifySuccess', 'Bank has been Updated Successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('notifyError', 'Failed to update bank: ' . $e->getMessage());
+        }
+    }
+    public function delete($id = 0)
+    {
+        $this->permissionCheck('locations_delete');
+        $bank = (new BankModel())->find($id);
+        if (empty($bank)){
+            return redirect()->to('/banks/add')->with('notifyError', 'Bank not found');
+        }
+        (new BankModel())->delete($id);
+        model('App\Models\ActivityLogModel')->add("Bank #$id Deleted by User:".logged('name'));
+        return redirect()->to('banks/add')->with('notifySuccess', 'Bank has been Deleted Successfully');
+    }
+
     public function change_status($id = 0)
     {
         (new BankModel())->update($id, ['status' => get('status') == 'true' ? 1 : 0 ]);

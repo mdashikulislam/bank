@@ -70,7 +70,7 @@
                                 </td>
                                 <td>
                                     <?php if (hasPermissions('locations_edit')): ?>
-                                        <a href="<?php echo url('locations/edit/'.$row->id) ?>" class="btn btn-sm btn-primary" title="<?php echo lang('App.locations_delete') ?>" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
+                                        <a href="<?php echo url('locations/edit/'.$row->id) ?>" class="btn btn-sm btn-primary" title="<?php echo lang('App.locations_edit') ?>" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
                                     <?php endif;?>
                                     <?php if (hasPermissions('locations_delete')): ?>
                                     <a href="<?php echo url('locations/delete/'.$row->id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Do you really want to delete this user ?')" title="<?php echo lang('App.locations_delete') ?>" data-toggle="tooltip"><i class="fa fa-trash"></i></a>
@@ -90,6 +90,9 @@
 <?= $this->endSection() ?>
 <?= $this->section('js') ?>
 <script>
+    $(document).ready(function () {
+        $(".form-validate").validate();
+    });
     window.updateUserStatus = (id, status) => {
         $.get( '<?php echo url('locations/change_status') ?>/'+id, {
             status: status

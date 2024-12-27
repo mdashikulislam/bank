@@ -62,6 +62,7 @@
                         <tr>
                             <th><?php echo lang('App.id') ?></th>
                             <th><?php echo lang('App.banks_name') ?></th>
+                            <th><?php echo lang('App.locations') ?></th>
                             <th><?php echo lang('App.status') ?></th>
                             <th><?php echo lang('App.action') ?></th>
                         </tr>
@@ -71,10 +72,18 @@
                             <tr>
                                 <td><?= $row->id ?></td>
                                 <td><?= $row->name ?></td>
+                                <td><?= $row->location_name ?></td>
                                 <td>
                                     <input type="checkbox" name="my-checkbox"  onchange="updateUserStatus('<?php echo $row->id ?>', $(this).is(':checked') )" <?php echo ($row->status) ? 'checked' : '' ?> data-bootstrap-switch  data-off-color="secondary" data-on-color="success"  data-off-text="<?php echo lang('App.user_inactive') ?>" data-on-text="<?php echo lang('App.user_active') ?>">
                                 </td>
-                                <td></td>
+                                <td>
+                                    <?php if (hasPermissions('banks_edit')): ?>
+                                        <a href="<?php echo url('banks/edit/'.$row->id) ?>" class="btn btn-sm btn-primary" title="<?php echo lang('App.banks_edit') ?>" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
+                                    <?php endif;?>
+                                    <?php if (hasPermissions('banks_delete')): ?>
+                                        <a href="<?php echo url('banks/delete/'.$row->id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Do you really want to delete this user ?')" title="<?php echo lang('App.banks_delete') ?>" data-toggle="tooltip"><i class="fa fa-trash"></i></a>
+                                    <?php endif;?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
@@ -105,21 +114,6 @@
                 alert('<?php echo lang('App.user_unable_change_status') ?>');
             }
         })
-    }
-    function previewImage(input, previewDom) {
-        if (input.files && input.files[0]) {
-            $(previewDom).show();
-
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $(previewDom).find("img").attr("src", e.target.result);
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        } else {
-            $(previewDom).hide();
-        }
     }
 </script>
 
