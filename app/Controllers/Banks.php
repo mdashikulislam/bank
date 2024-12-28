@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\AdminBaseController;
+use App\Models\AttributeModel;
 use App\Models\BankModel;
 use App\Models\EmailTemplateModel;
 use App\Models\LocationModel;
@@ -113,7 +114,5 @@ class Banks extends AdminBaseController
         (new BankModel())->update($id, ['status' => get('status') == 'true' ? 1 : 0 ]);
         echo 'done';
     }
-}
 
-/* End of file Banks.php */
-/* Location: ./application/controllers/Banks.php */
+}

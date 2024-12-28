@@ -45,6 +45,8 @@ $lang['add_bank'] = "Add Bank";
 $lang['banks_name'] = "Bank/NBFC Name";
 $lang['banks_delete'] = "Delete Bank";
 $lang['banks_edit'] = "Edit Bank";
+$lang['bank_attributes'] = "Bank Attributes";
+$lang['bank_excels'] = "Bank Excels";
 
 $lang['locations'] = "Bank / NBFC Location";
 $lang['locations_add'] = "Add Location";

@@ -87,7 +87,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?php echo url('banks/attributes') ?>" class="nav-link <?php echo (@$_page->submenu == 'attributes') ? 'active' : '' ?>">
+            <a href="<?php echo url('attributes') ?>" class="nav-link <?php echo (@$_page->submenu == 'attributes') ? 'active' : '' ?>">
               <i class="far fa-circle nav-icon"></i>
               <p> <?php echo lang('App.bank_attributes') ?> </p>
             </a>
