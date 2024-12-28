@@ -1267,3 +1267,28 @@ if (!function_exists('getLocationDropdown')){
         return $html;
     }
 }
+if (!function_exists('getBankDropdown')){
+    function getBankDropdown($selected = ''  )
+    {
+        allowGroupBy();
+        $banks = model('App\Models\BankModel')->groupBy('name')->getByWhere(['status' => 1]);
+        $html = '<option value="">Select Bank</option>';
+        foreach ($banks as $row) {
+            $html .= '<option value="'.$row->id.'" '.($selected == $row->id ? 'selected' : '').'>'.$row->name.'</option>';
+        }
+        return $html;
+    }
+}
+if (!function_exists('allowGroupBy')){
+    function allowGroupBy()
+    {
+        $db = \Config\Database::connect();
+        $db->query("SET sql_mode = (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''))");
+    }
+}
+function array_trim($data) {
+    if (is_array($data)) {
+        return array_map('array_trim', $data);
+    }
+    return trim($data);
+}

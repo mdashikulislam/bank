@@ -120,5 +120,6 @@ class BaseModel extends Model
 	{
 		return ($query = $this->where($this->table)->orderBy($this->table_key, 'desc')) && $query->countAllResults() > 0 ? $query->first()->id + 1 : 1;
 	}
-    
+
+
 }

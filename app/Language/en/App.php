@@ -55,6 +55,9 @@ $lang['locations_name'] = "Name";
 $lang['locations_delete'] = "Delete Location";
 
 $lang['attributes'] = "Bank / NBFC Attributes";
+$lang['attributes_name'] = "Attributes Name";
+$lang['attributes_add'] = "Attributes Add";
+$lang['attributes_edit'] = "Attributes Edit";
 
 $lang['excels'] = "Bank/NBFC Excel Data";
 

@@ -30,11 +30,10 @@
             <div class="card">
                 <div class="card-header with-border">
                     <h3 class="card-title">
-                        Add
-                        <?php echo lang('App.attributes') ?>
+                        <?php echo lang('App.attributes_edit') ?>
                     </h3>
                 </div>
-                <?php echo form_open_multipart('attributes/save', ['class' =>
+                <?php echo form_open_multipart('attributes/update/'.$attribute->id, ['class' =>
                     'form-validate', 'autocomplete' => 'off', 'method' => 'post']); ?>
                 <div class="card">
                     <div class="card-body">
@@ -42,7 +41,7 @@
                         <div class="form-group">
                             <label for="bank_id"><?php echo lang('App.banks_name'); ?></label>
                             <select name="bank_id" id="bank_id" class="form-control select2" required>
-                                <?php echo getBankDropdown(set_value('bank_id')); ?>
+                                <?php echo getBankDropdown(set_value('bank_id',$attribute->bank_id)); ?>
                             </select>
                         </div>
                         <div class="d-flex justify-content-between align-content-center form-group mb-3">
@@ -52,10 +51,15 @@
                             </a>
                         </div>
                         <div id="attributes-container">
+                            <?php
+                                $names = json_decode($attribute->name);
+                                foreach ($names as $name):
+                            ?>
                             <div class="form-group d-flex justify-content-between align-items-center gap">
-                                <input type="text" name="name[]" class="form-control" placeholder="Enter Attribute Name" required>
+                                <input type="text" name="name[]" class="form-control" value="<?= $name ?>" placeholder="Enter Attribute Name" required>
                                 <a href="#" class="btn btn-danger remove-attribute" title="Remove Attribute"><i class="fa fa-trash"></i></a>
                             </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
 
