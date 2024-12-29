@@ -42,6 +42,9 @@ class Excels extends AdminBaseController{
         }
         $defineHeader = json_decode($existHeader->name,true);
         $reader = new Xlsx();
+        if ($_FILES['file']['type'] == 'text/csv') {
+            $reader = new Csv();
+        }
         $spreadsheet = $reader->load($_FILES['file']['tmp_name']);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
         $header = @$sheetData[0];
