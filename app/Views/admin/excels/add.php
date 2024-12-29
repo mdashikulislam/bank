@@ -72,7 +72,6 @@
 <script src="<?php echo assets_url('admin') ?>/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <script>
     $(document).ready(function () {
-        $(".form-validate").validate();
         $(".select2").select2();
         $(function () {
             bsCustomFileInput.init();
