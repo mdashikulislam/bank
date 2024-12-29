@@ -22,7 +22,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header with-border d-flex">
                     <h3 class="card-title"><?php echo lang('App.attributes') ?></h3>

@@ -93,7 +93,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?php echo url('banks/excel') ?>" class="nav-link <?php echo (@$_page->submenu == 'excel') ? 'active' : '' ?>">
+            <a href="<?php echo url('excels') ?>" class="nav-link <?php echo (@$_page->submenu == 'excel') ? 'active' : '' ?>">
               <i class="far fa-circle nav-icon"></i>
               <p> <?php echo lang('App.bank_excels') ?> </p>
             </a>

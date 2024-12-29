@@ -9,7 +9,8 @@
         "codeigniter4/framework": "^4",
         "almasaeed2010/adminlte": "~3.2",
         "codeigniter4/translations": "^4.1",
-        "hermawan/codeigniter4-datatables": "^0.5.4"
+        "hermawan/codeigniter4-datatables": "^0.5.4",
+        "phpoffice/phpspreadsheet": "^3.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

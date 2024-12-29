@@ -47,6 +47,9 @@ $lang['banks_delete'] = "Delete Bank";
 $lang['banks_edit'] = "Edit Bank";
 $lang['bank_attributes'] = "Bank Attributes";
 $lang['bank_excels'] = "Bank Excels";
+$lang['select_excels'] = "Select File (xlsx, csv)";
+$lang['add_excels'] = "Add Excels";
+$lang['excels'] = "Bank / NBFC Excels";
 
 $lang['locations'] = "Bank / NBFC Location";
 $lang['locations_add'] = "Add Location";
