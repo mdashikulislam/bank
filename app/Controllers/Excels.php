@@ -64,8 +64,10 @@ class Excels extends AdminBaseController{
             $filteredRow = [];
             foreach ($defineHeader as $headerColumn) {
                 $columnIndex = array_search($headerColumn, $header);
-                if ($columnIndex !== false && isset($value[$columnIndex])) {
-                    $filteredRow[] = $value[$columnIndex];
+                if ($columnIndex !== false) {
+                    $filteredRow[] = isset($value[$columnIndex]) ? $value[$columnIndex] : null; // Fill empty values with null
+                } else {
+                    $filteredRow[] = null; // Fill missing columns with null
                 }
             }
             $excelBody[] = $filteredRow;
@@ -73,7 +75,8 @@ class Excels extends AdminBaseController{
         $createData = [
             'bank_id' => $data['bank_id'],
             'header' => json_encode($defineHeader),
-            'data'=> json_encode($excelBody)
+            'data'=> json_encode($excelBody),
+            'user_id'=>logged('id')
         ];
         try {
             $excel = new \App\Models\ExcelModel();

@@ -2,510 +2,514 @@
 
 
 /**
-  * Find & returns the vlaue if exists in db
-  *
-  * @param string $key key which is used to check in db - Refrence: settings table - key column
-  * @param string $default value returned when setting key is not found
-  *
-  * @return string/boolean $value if exists value else false
-  * 
-  */
+ * Find & returns the vlaue if exists in db
+ *
+ * @param string $key key which is used to check in db - Refrence: settings table - key column
+ * @param string $default value returned when setting key is not found
+ *
+ * @return string/boolean $value if exists value else false
+ *
+ */
 if (!function_exists('setting')) {
-	
-	function setting($key = '', $default = false)
-	{
-		return !empty($value = @model('\App\Models\SettingModel')->where('key', $key)->first()->value) ? $value : $default;
-	}
+
+    function setting($key = '', $default = false)
+    {
+        return !empty($value = @model('\App\Models\SettingModel')->where('key', $key)->first()->value) ? $value : $default;
+    }
 
 }
 
 /**
-  * Function to create custom url
-  * uses site_url() function
-  *
-  * @param string $url any slug
-  *
-  * @return string site_url
-  * 
-  */
-  if (!function_exists('url')) {
+ * Function to create custom url
+ * uses site_url() function
+ *
+ * @param string $url any slug
+ *
+ * @return string site_url
+ *
+ */
+if (!function_exists('url')) {
 
-    function url($url='')
+    function url($url = '')
     {
-      return site_url($url);
+        return site_url($url);
     }
-  
-  }
-  
-  /**
-    * Function to get url of assets folder
-    *
-    * @param string $url any slug 
-    *
-    * @return string url
-    * 
-    */
-  if (!function_exists('assets_url')) {
-  
-    function assets_url($url='')
-    {
-      return base_url('assets/'.$url);
-    }
-  
-  }
-  
-  /**
-    * Function to get url of assets folder
-    *
-    * @param string $url any slug 
-    *
-    * @return string url
-    * 
-    */
-  if (!function_exists('admin_assets_url')) {
-  
-    function admin_assets($url='')
-    {
-      return assets_url('admin/'.$url);
-    }
-  
-  }
 
-  
+}
+
 /**
-  * Function to get url of upload folder
-  *
-  * @param string $url any slug 
-  *
-  * @return string url
-  * 
-  */
+ * Function to get url of assets folder
+ *
+ * @param string $url any slug
+ *
+ * @return string url
+ *
+ */
+if (!function_exists('assets_url')) {
+
+    function assets_url($url = '')
+    {
+        return base_url('assets/' . $url);
+    }
+
+}
+
+/**
+ * Function to get url of assets folder
+ *
+ * @param string $url any slug
+ *
+ * @return string url
+ *
+ */
+if (!function_exists('admin_assets_url')) {
+
+    function admin_assets($url = '')
+    {
+        return assets_url('admin/' . $url);
+    }
+
+}
+
+
+/**
+ * Function to get url of upload folder
+ *
+ * @param string $url any slug
+ *
+ * @return string url
+ *
+ */
 if (!function_exists('urlUpload')) {
 
-	function urlUpload($url='', $time = false)
-	{
-		return base_url('uploads/'.$url).($time ? '?'.time() : '');
-	}
+    function urlUpload($url = '', $time = false)
+    {
+        return base_url('uploads/' . $url) . ($time ? '?' . time() : '');
+    }
 
 }
 
 /**
-  * Function to check if the user is loggedIn
-  *
-  * @return boolean
-  * 
-  */
-  if (!function_exists('is_logged')) {
+ * Function to check if the user is loggedIn
+ *
+ * @return boolean
+ *
+ */
+if (!function_exists('is_logged')) {
 
     function is_logged()
     {
-      $login_token_match = false;
-	  
-      $isLogged = !empty(session()->get('login')) &&  !empty(session()->get('logged')) ? (object) session()->get('logged') : false;
-      $_token = $isLogged && !empty(session()->get('login_token')) ? session()->get('login_token') : false;
-  
-      if(!$isLogged){
-        $isLogged = get_cookie('login') && !empty(get_cookie('logged')) ? json_decode(get_cookie('logged')): false;
-        $_token = $isLogged && !empty(get_cookie('login_token')) ? get_cookie('login_token') : false;
-      }
+        $login_token_match = false;
 
-      // var_dump($isLogged->id); die;
-  
-      if($isLogged){
-        $userModel = model('App\Models\UserModel');
-        $user = $userModel->getById( $userModel->escape((int) $isLogged->id) );
-        // verify login_token
-        $login_token_match = (sha1($user->id.$user->password.$isLogged->time) == $_token);
-      }
-  
-      return $isLogged && $login_token_match;
+        $isLogged = !empty(session()->get('login')) && !empty(session()->get('logged')) ? (object)session()->get('logged') : false;
+        $_token = $isLogged && !empty(session()->get('login_token')) ? session()->get('login_token') : false;
+
+        if (!$isLogged) {
+            $isLogged = get_cookie('login') && !empty(get_cookie('logged')) ? json_decode(get_cookie('logged')) : false;
+            $_token = $isLogged && !empty(get_cookie('login_token')) ? get_cookie('login_token') : false;
+        }
+
+        // var_dump($isLogged->id); die;
+
+        if ($isLogged) {
+            $userModel = model('App\Models\UserModel');
+            $user = $userModel->getById($userModel->escape((int)$isLogged->id));
+            // verify login_token
+            $login_token_match = (sha1($user->id . $user->password . $isLogged->time) == $_token);
+        }
+
+        return $isLogged && $login_token_match;
     }
-  
-  
-  }
-  
-  
-  /**
-    * Function that returns the data of loggedIn user
-    *
-    * @param string $key Any key/Column name that exists in users table
-    *
-    * @return boolean
-    * 
-    */
-  if (!function_exists('logged')) {
-  
-    function logged($key = false)
-    {
-      if(!is_logged())
-        return false;
-  
-      $logged = !empty(session()->get('login')) ? model('App\Models\UserModel')->getById(session()->get('logged')['id']) : false;
-  
-      if(!$logged){
-        $logged = model('App\Models\UserModel')->getById( json_decode(get_cookie('logged'))->id );
-      }
-  
-        return (!$key)?$logged:$logged->{$key};
-  
-    }
-  
-  
-  }
-  
+
+
+}
 
 
 /**
-  * Function to check and get 'post' request
-  *
-  * @param string $key - key to check in 'post' request
-  *
-  * @return string 
-  * 
-  */
-  if (!function_exists('post')) {
+ * Function that returns the data of loggedIn user
+ *
+ * @param string $key Any key/Column name that exists in users table
+ *
+ * @return boolean
+ *
+ */
+if (!function_exists('logged')) {
+
+    function logged($key = false)
+    {
+        if (!is_logged())
+            return false;
+
+        $logged = !empty(session()->get('login')) ? model('App\Models\UserModel')->getById(session()->get('logged')['id']) : false;
+
+        if (!$logged) {
+            $logged = model('App\Models\UserModel')->getById(json_decode(get_cookie('logged'))->id);
+        }
+
+        return (!$key) ? $logged : $logged->{$key};
+
+    }
+
+
+}
+
+
+/**
+ * Function to check and get 'post' request
+ *
+ * @param string $key - key to check in 'post' request
+ *
+ * @return string
+ *
+ */
+if (!function_exists('post')) {
 
     function post($key)
     {
-      return service('request')->getPost($key);
+        return service('request')->getPost($key);
     }
-  
-  }
 
-  /**
-  * Function to check and get 'get' request
-  *
-  * @param string $key - key to check in 'get' request
-  *
-  * @return string value - uses codeigniter Input library 
-  * 
-  */
+}
+
+/**
+ * Function to check and get 'get' request
+ *
+ * @param string $key - key to check in 'get' request
+ *
+ * @return string value - uses codeigniter Input library
+ *
+ */
 if (!function_exists('get')) {
 
-	function get($key)
-	{
-    return service('request')->getGetPost($key);
-	}
+    function get($key)
+    {
+        return service('request')->getGetPost($key);
+    }
 
 
 }
 
 
 /**
-  * Function for user profile url
-  *
-  * @param string $id - user id of the user
-  *
-  * @return string profile url
-  * 
-  */
+ * Function for user profile url
+ *
+ * @param string $id - user id of the user
+ *
+ * @return string profile url
+ *
+ */
 if (!function_exists('userProfile')) {
 
-	function userProfile($id)
-	{
-		$url = urlUpload('users/'.$id.'.png?'.time());
+    function userProfile($id)
+    {
+        $url = urlUpload('users/' . $id . '.png?' . time());
 
-		if($id!='default')
-			$url = urlUpload('users/'.$id.'.'.model('App\Models\UserModel')->getRowById($id, 'img_type').'?'.time());
+        if ($id != 'default')
+            $url = urlUpload('users/' . $id . '.' . model('App\Models\UserModel')->getRowById($id, 'img_type') . '?' . time());
 
-		return $url;
-	}
+        return $url;
+    }
 
 }
 /**
-  * Function to dump the passed data
-  * Die & Dumps the whole data passed
-  *
-  * uses - var_dump & die together
-  *
-  * @param all $key - All Accepted - string,int,boolean,etc
-  *
-  * @return boolean
-  * 
-  */
+ * Function to dump the passed data
+ * Die & Dumps the whole data passed
+ *
+ * uses - var_dump & die together
+ *
+ * @param all $key - All Accepted - string,int,boolean,etc
+ *
+ * @return boolean
+ *
+ */
 if (!function_exists('dd')) {
 
-	function dd($key)
-	{
-		die(var_dump($key));
-		return true;
-	}
+    function dd($key)
+    {
+        die(var_dump($key));
+        return true;
+    }
 
 
 }
 
 
 /**
-  * Finds and return the ipaddres of client user
-  *
-  * @param array $ipaddress IpAddress
-  * 
-  */
-  if (!function_exists('ip_address')) {
+ * Finds and return the ipaddres of client user
+ *
+ * @param array $ipaddress IpAddress
+ *
+ */
+if (!function_exists('ip_address')) {
 
-    function ip_address() {
+    function ip_address()
+    {
         $ipaddress = '';
         if (isset($_SERVER['HTTP_CLIENT_IP']))
             $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
             $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+        else if (isset($_SERVER['HTTP_X_FORWARDED']))
             $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+        else if (isset($_SERVER['HTTP_FORWARDED_FOR']))
             $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_FORWARDED']))
+        else if (isset($_SERVER['HTTP_FORWARDED']))
             $ipaddress = $_SERVER['HTTP_FORWARDED'];
-        else if(isset($_SERVER['REMOTE_ADDR']))
+        else if (isset($_SERVER['REMOTE_ADDR']))
             $ipaddress = $_SERVER['REMOTE_ADDR'];
         else
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
     }
-  
-  }
 
-  /**
-    * Provides the shortcodes which are available in any email template
-    *
-    * @return array $data Array of shortcodes
-    * 
-    */
-  if (!function_exists('getEmailShortCodes')) {
-  
-    function getEmailShortCodes() {
-  
-      $data = [
-        'site_url' => site_url(),
-        'company_name' => setting('company_name'),
-      ];
-  
-      return $data;
-    }
-  
-  }
-  
+}
+
 /**
-  * Redirects with error if user doesnt have the permission to passed key/module
-  *
-  * @param string $code Code permissions
-  * 
-  * @return boolean true/false
-  * 
-  */
+ * Provides the shortcodes which are available in any email template
+ *
+ * @return array $data Array of shortcodes
+ *
+ */
+if (!function_exists('getEmailShortCodes')) {
+
+    function getEmailShortCodes()
+    {
+
+        $data = [
+            'site_url' => site_url(),
+            'company_name' => setting('company_name'),
+        ];
+
+        return $data;
+    }
+
+}
+
+/**
+ * Redirects with error if user doesnt have the permission to passed key/module
+ *
+ * @param string $code Code permissions
+ *
+ * @return boolean true/false
+ *
+ */
 if (!function_exists('ifPermissions')) {
 
-	function ifPermissions($code = '') {
+    function ifPermissions($code = '')
+    {
 
 
-		// header('Location : '.url('errors/permission_denied')); die;
+        // header('Location : '.url('errors/permission_denied')); die;
 
-    // die(var_dump( hasPermissions($code) ));
+        // die(var_dump( hasPermissions($code) ));
 
-		if ( is_logged() && hasPermissions($code) ) {
-			return true;
-		}
+        if (is_logged() && hasPermissions($code)) {
+            return true;
+        }
 
 
-		header('Location : '.url('errors/permission_denied')); die;
+        header('Location : ' . url('errors/permission_denied'));
+        die;
 
-		return false;
-	}
+        return false;
+    }
 
 }
 
 
 /**
-  * Check and return boolean if user have the permission to passed key or not
-  *
-  * @param string $code Code permissions
-  * 
-  * @return boolean true/false
-  * 
-  */
-  if (!function_exists('hasPermissions')) {
+ * Check and return boolean if user have the permission to passed key or not
+ *
+ * @param string $code Code permissions
+ *
+ * @return boolean true/false
+ *
+ */
+if (!function_exists('hasPermissions')) {
 
-    function hasPermissions($code = '') {
-        return !empty( model('App\Models\RolePermissionModel')->getByWhere([ 'role' => logged('role'), 'permission' => $code ]) ) ;
+    function hasPermissions($code = '')
+    {
+        return !empty(model('App\Models\RolePermissionModel')->getByWhere(['role' => logged('role'), 'permission' => $code]));
     }
-  
-  }
-  
 
-  function updateViewData($data)
-  {
+}
+
+
+function updateViewData($data)
+{
     $view = \Config\Services::renderer();
     $view->setData($data);
-  }
+}
 
-  function setPageData($data)
-  {
-    updateViewData(['_page' => (object) $data]);
-  }
+function setPageData($data)
+{
+    updateViewData(['_page' => (object)$data]);
+}
 
-  function setDefaultViewData()
-  {
+function setDefaultViewData()
+{
     setPageData([
-          'title' => '',
-          'menu' => '',
-          'submenu' => '',
+        'title' => '',
+        'menu' => '',
+        'submenu' => '',
     ]);
-  }
+}
 
-  
 
 /**
-  * Die/Stops the request if its not a 'post' requetst type
-  *
-  * @return boolean
-  * 
-  */
+ * Die/Stops the request if its not a 'post' requetst type
+ *
+ * @return boolean
+ *
+ */
 if (!function_exists('postAllowed')) {
 
-	function postAllowed()
-	{
-    
-		if(service('request')->getMethod(true)!='POST')
-			die('Invalid Request');
+    function postAllowed()
+    {
 
-		return true;
+        if (service('request')->getMethod(true) != 'POST')
+            die('Invalid Request');
 
-	}
+        return true;
+
+    }
 
 
 }
 
 
 /**
-  * Hides Some Characters in Email. Basically Used in Forget Password System
-  *
-  * @param string $email Email 
-  * 
-  * @return string
-  * 
-  */
-  if (!function_exists('obfuscate_email')) {
+ * Hides Some Characters in Email. Basically Used in Forget Password System
+ *
+ * @param string $email Email
+ *
+ * @return string
+ *
+ */
+if (!function_exists('obfuscate_email')) {
 
-	function obfuscate_email($email) {
+    function obfuscate_email($email)
+    {
 
-		// die(var_dump($email));
+        // die(var_dump($email));
 
-		$em   = explode("@",$email);
-	    $name = implode('@', array_slice($em, 0, count($em)-1));
-	    $len  = floor(strlen($name)/2);
+        $em = explode("@", $email);
+        $name = implode('@', array_slice($em, 0, count($em) - 1));
+        $len = floor(strlen($name) / 2);
 
-	    return substr($name,0, $len) . str_repeat('*', $len) . "@" . end($em);  
-	
-	}
+        return substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
+
+    }
 
 }
 
 
 /**
-  * return language code
-  *
-  * @return string
-  * 
-  */
-  if (!function_exists('getUserlang')) {
+ * return language code
+ *
+ * @return string
+ *
+ */
+if (!function_exists('getUserlang')) {
 
-	function getUserlang() {
+    function getUserlang()
+    {
 
-	    return !empty( get_cookie('current_lang', true) ) ? get_cookie('current_lang', true) : setting('default_lang');
-	
-	}
+        return !empty(get_cookie('current_lang', true)) ? get_cookie('current_lang', true) : setting('default_lang');
+
+    }
 
 }
 
 
-
 /**
-  * Currency formating
-  *
-  * @param int/float/string $amount
-  *
-  * @return string $amount formated amount with currency symbol
-  * 
-  */
+ * Currency formating
+ *
+ * @param int/float/string $amount
+ *
+ * @return string $amount formated amount with currency symbol
+ *
+ */
 if (!function_exists('currency')) {
 
-	function currency($amount)
-	{
-		return '$ '. $amount;
-	}
+    function currency($amount)
+    {
+        return '$ ' . $amount;
+    }
 
 
 }
 
 
 /**
-  * Generates teh html for breadcrumb - Supports AdminLte
-  *
-  * @param array $args Array of values
-  * 
-  */
+ * Generates teh html for breadcrumb - Supports AdminLte
+ *
+ * @param array $args Array of values
+ *
+ */
 if (!function_exists('breadcrumb')) {
 
-	function breadcrumb($args = '')
-	{
-		$html = '<ol class="breadcrumb">';
-		$i = 0;
-		foreach ($args as $key => $value) {
-			if(count($args) < $i)
-				$html .= '<li><a href="'.url($key).'">'.$value.'</a></li>';
-			else
-				$html .= '<li class="active">'.$value.'</li>';
-			$i++;
-		}
-		    
-		    
-		$html .= '</ol>';
-		echo $html;
-	}
+    function breadcrumb($args = '')
+    {
+        $html = '<ol class="breadcrumb">';
+        $i = 0;
+        foreach ($args as $key => $value) {
+            if (count($args) < $i)
+                $html .= '<li><a href="' . url($key) . '">' . $value . '</a></li>';
+            else
+                $html .= '<li class="active">' . $value . '</li>';
+            $i++;
+        }
+
+
+        $html .= '</ol>';
+        echo $html;
+    }
 
 
 }
 /**
-  * Finds and return the ipaddres of client user
-  *
-  * @param array $ipaddress IpAddress
-  * 
-  */
+ * Finds and return the ipaddres of client user
+ *
+ * @param array $ipaddress IpAddress
+ *
+ */
 if (!function_exists('ip_address')) {
 
-	function ip_address() {
-	    $ipaddress = '';
-	    if (isset($_SERVER['HTTP_CLIENT_IP']))
-	        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-	    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-	        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	    else if(isset($_SERVER['HTTP_X_FORWARDED']))
-	        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-	    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-	        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-	    else if(isset($_SERVER['HTTP_FORWARDED']))
-	        $ipaddress = $_SERVER['HTTP_FORWARDED'];
-	    else if(isset($_SERVER['REMOTE_ADDR']))
-	        $ipaddress = $_SERVER['REMOTE_ADDR'];
-	    else
-	        $ipaddress = 'UNKNOWN';
-	    return $ipaddress;
-	}
+    function ip_address()
+    {
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if (isset($_SERVER['HTTP_X_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if (isset($_SERVER['HTTP_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if (isset($_SERVER['HTTP_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if (isset($_SERVER['REMOTE_ADDR']))
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
 
 }
 
 
-
 /**
-  * return language code
-  *
-  * @return string
-  * 
-  */
+ * return language code
+ *
+ * @return string
+ *
+ */
 
 function supported_languages()
 {
 
-	$supported_languages = json_decode('{
+    $supported_languages = json_decode('{
 		"en":{
 			"name":"English",
 			"nativeName":"english"
@@ -519,9 +523,9 @@ function supported_languages()
 			"nativeName":"हिन्दी"
 		}
 	}');
-	
 
-	$all_languages = json_decode('{
+
+    $all_languages = json_decode('{
 		"ab":{
 			"name":"Abkhaz",
 			"nativeName":"аҧсуа"
@@ -1252,41 +1256,43 @@ function supported_languages()
 		}
 	}');
 
-	return $supported_languages;
+    return $supported_languages;
 
-	//    die(var_dump($list));
+    //    die(var_dump($list));
 }
-if (!function_exists('getLocationDropdown')){
-    function getLocationDropdown($selected = ''  )
+
+if (!function_exists('getLocationDropdown')) {
+    function getLocationDropdown($selected = '')
     {
         $locations = model('App\Models\LocationModel')->getByWhere(['status' => 1]);
         $html = '<option value="">Select Location</option>';
         foreach ($locations as $location) {
-            $html .= '<option value="'.$location->id.'" '.($selected == $location->id ? 'selected' : '').'>'.$location->name.'</option>';
+            $html .= '<option value="' . $location->id . '" ' . ($selected == $location->id ? 'selected' : '') . '>' . $location->name . '</option>';
         }
         return $html;
     }
 }
-if (!function_exists('getBankDropdown')){
-    function getBankDropdown($selected = ''  )
+if (!function_exists('getBankDropdown')) {
+    function getBankDropdown($selected = '')
     {
         allowGroupBy();
         $banks = model('App\Models\BankModel')->groupBy('name')->getByWhere(['status' => 1]);
         $html = '<option value="">Select Bank</option>';
         foreach ($banks as $row) {
-            $html .= '<option value="'.$row->id.'" '.($selected == $row->id ? 'selected' : '').'>'.$row->name.'</option>';
+            $html .= '<option value="' . $row->id . '" ' . ($selected == $row->id ? 'selected' : '') . '>' . $row->name . '</option>';
         }
         return $html;
     }
 }
-if (!function_exists('allowGroupBy')){
+if (!function_exists('allowGroupBy')) {
     function allowGroupBy()
     {
         $db = \Config\Database::connect();
         $db->query("SET sql_mode = (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''))");
     }
 }
-function array_trim($data) {
+function array_trim($data)
+{
     if (is_array($data)) {
         return array_map('array_trim', $data);
     }
