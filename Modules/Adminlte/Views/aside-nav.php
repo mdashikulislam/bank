@@ -1,5 +1,5 @@
 
-  <li class="nav-header"><strong>  <?php echo lang('App.ci_examples') ?>  </strong> &nbsp;
+  <li class="nav-header"><strong>  <?php //echo lang('App.ci_examples') ?>  </strong> &nbsp;
   <span class="right badge badge-primary">New</span>
   </li>
   <li class="nav-item has-treeview">
@@ -51,7 +51,7 @@
   </li>
 
 
-  <li class="nav-header"><strong> AdminLTE 3 Pages</strong></li>
+  <li class="nav-header"><strong> Future Module Layouts</strong></li>
   <!-- Add icons to the links using the .nav-icon class
         with font-awesome or any other icon font library -->
   <li class="nav-item has-treeview">
@@ -297,7 +297,7 @@
       </li>
     </ul>
   </li>
-  <li class="nav-header"><?php echo lang('App.examples') ?></li>
+  <?php /*?><li class="nav-header"><?php echo lang('App.examples') ?></li><?php */?>
   <li class="nav-item">
     <a href="<?php echo url('adminlte/main/calendar'); ?>" class="nav-link">
       <i class="nav-icon far fa-calendar-alt"></i>
@@ -486,7 +486,7 @@
       </li>
     </ul>
   </li>
-  <li class="nav-header"><?php echo lang('App.MISCELLANEOUS') ?></li>
+  <?php /*?><li class="nav-header"><?php echo lang('App.MISCELLANEOUS') ?></li>
   <li class="nav-item">
     <a href="https://adminlte.io/docs/3.0" class="nav-link">
       <i class="nav-icon fas fa-file"></i>
@@ -577,4 +577,4 @@
       <i class="nav-icon far fa-circle text-info"></i>
       <p><?php echo lang('App.informational') ?></p>
     </a>
-  </li>
+  </li><?php */?>

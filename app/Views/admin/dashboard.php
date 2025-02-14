@@ -28,7 +28,7 @@
             <!-- small box -->
             <div class="small-box bg-primary">
               <div class="inner">
-                <h3>60</h3>
+                <h3>7</h3>
 
                 <p><?php //echo lang('App.dashboard_new_orders');?>Bank(s) / NBFC(s)</p>
               </div>
@@ -43,14 +43,14 @@
             <!-- small box -->
             <div class="small-box bg-dark">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3><!--<sup style="font-size: 20px">%</sup>--></h3>
 
-                <p><?php echo lang('App.dashboard_bounce_rate');?> Excel Uploaded</p>
+                <p><?php //echo lang('App.dashboard_bounce_rate');?> Banks Monthly Target / Achievement Graph- Bar Chart Analysis</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer"><?php echo lang('App.dashboard_more_info');?><i class="fas fa-arrow-circle-right"></i></a>
+              <a href="https://crm.brightworth.net/adminlte/charts/chartjs" class="small-box-footer"><?php echo lang('App.dashboard_more_info');?><i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

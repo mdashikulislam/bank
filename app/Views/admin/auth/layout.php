@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +18,7 @@
     
 <div class="login-box">
   <div class="login-logo">
-    <a href="<?= url('/') ?>"><?php echo setting('company_name') ?></a>
+    <a href="<?= url('/') ?>"><img src="https://crm.brightworth.net/uploads/logo-brightworth.png"><?php //echo setting('company_name') ?></a>
   </div>
 
   <?= $this->include('admin/layout/partials/notification') ?>
