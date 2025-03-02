@@ -22,5 +22,13 @@ class BankModel extends BaseModel
         ->join('locations', 'locations.id = banks.location_id')
             ->findAll();
     }
+    public function getBankWithExcel()
+    {
+        return $this->select('banks.id, banks.name, attributes.name as attribute_name')
+            ->join('excels', 'excels.bank_id = banks.id', 'inner')
+            ->join('attributes', 'attributes.bank_id = banks.id', 'left')
+            ->groupBy('banks.id, banks.name, attributes.name')
+            ->findAll();
+    }
 
 }

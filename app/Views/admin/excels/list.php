@@ -1,6 +1,5 @@
 <?= $this->extend('admin/layout/default') ?>
 <?= $this->section('content') ?>
-
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -33,12 +32,16 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <?php if (!empty($excels)): foreach ($excels as $row): ?>
+            <?php if (!empty($banks)): foreach ($banks as $row): ?>
+                <?php
+                    $headers = json_decode($row->attribute_name);
+                    $tableData = (new \App\Models\ExcelModel())->getAllRecord($row->id);
+                ?>
                 <div class="card collapsed-card">
                     <div class="card-header border-0 ui-sortable-handle">
                         <h3 class="card-title" data-card-widget="collapse" style="cursor: pointer">
                             <i class="far fa-list-alt"></i>
-                            <?php echo $row->bank_name ?> (<?= $row->created_at ?>) <?php if (logged('role') == '1') { echo '<b style="color:darkred; font-size:20px;">('.$row->user_name.')</b>';} ?>
+                            <?php echo $row->name ?>
                         </h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
@@ -55,28 +58,33 @@
                         <table class="table table-striped table-bordered text-nowrap">
                             <thead>
                             <tr>
-                                <?php
-                                $header = json_decode($row->header);
-                                foreach ($header as $h){
-                                    echo '<th>'.ucfirst($h).'</th>';
-                                }
-                                ?>
+                                <?php if (!empty($headers)): foreach ($headers as $header):?>
+                                <th><?=$header?></th>
+                                <?php endforeach;endif;?>
+                                <?php if (@$user->role == '1'): ?>
+                                    <td>Mentor</td>
+                                <?php endif; ?>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php $data = json_decode($row->data); foreach ($data as $d): ?>
+                                <?php if (!empty($tableData)): foreach ($tableData as $td):?>
                                 <tr>
-                                    <?php foreach ($d as $h): ?>
-                                        <td><?= $h ?></td>
+                                    <?php
+                                        $allData = json_decode($td->data);
+                                        foreach ($allData as $ad):
+                                    ?>
+                                    <td><?= $ad; ?></td>
                                     <?php endforeach; ?>
+                                    <?php if (@$user->role == '1'): ?>
+                                        <td><?= ($td->role !='1') ? $td->name:'-'?></td>
+                                    <?php endif; ?>
                                 </tr>
-                            <?php endforeach; ?>
+                                <?php endforeach; endif?>
                             </tbody>
                         </table>
                     </div>
                 </div>
             <?php endforeach; endif; ?>
-
         </div>
     </div>
 </section>

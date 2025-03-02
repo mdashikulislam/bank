@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Models\AttributeModel;
+use App\Models\BankModel;
 use App\Models\ExcelModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
@@ -12,8 +13,9 @@ class Excels extends AdminBaseController{
     public function index()
     {
         $this->permissionCheck('excels_list');
-        $excels = (new ExcelModel())->getAllExcels();
-        return view('admin/excels/list',compact('excels'));
+        $banks = (new BankModel())->getBankWithExcel();
+        $user = logged();
+        return view('admin/excels/list',compact('banks','user'));
     }
 
     public function add()
@@ -36,6 +38,7 @@ class Excels extends AdminBaseController{
         if (!$validation->run($data)) {
             return redirect()->back()->withInput()->with('notifyError', implode(', ', $validation->getErrors()));
         }
+
         $existHeader = (new AttributeModel())->where('bank_id', $data['bank_id'])->first();
         if(!$existHeader){
             return redirect()->back()->with('notifyError', 'Attribute not found');
@@ -72,15 +75,16 @@ class Excels extends AdminBaseController{
             }
             $excelBody[] = $filteredRow;
         }
-        $createData = [
-            'bank_id' => $data['bank_id'],
-            'header' => json_encode($defineHeader),
-            'data'=> json_encode($excelBody),
-            'user_id'=>logged('id')
-        ];
+
         try {
-            $excel = new \App\Models\ExcelModel();
-            $excel = $excel->create($createData);
+            foreach ($excelBody as $body){
+                $excel = new \App\Models\ExcelModel();
+                $excel = $excel->create([
+                    'bank_id' => $data['bank_id'],
+                    'data'=> json_encode($body),
+                    'user_id'=>logged('id')
+                ]);
+            }
             model('App\Models\ActivityLogModel')->add("New Excel #$excel Created by User: #" . logged('id'));
             return redirect()->to('excels')->with('notifySuccess', 'New Excel Created Successfully');
         }catch (\Exception $e) {

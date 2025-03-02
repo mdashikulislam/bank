@@ -22,4 +22,20 @@ class ExcelModel extends BaseModel
                 ->findAll();
         }
     }
+
+    public function getAllRecord($id)
+    {
+        $user = logged();
+        if ($user->role == '1') {
+            return $this->select('excels.*,users.name,users.role')
+                ->join('users','users.id = excels.user_id')
+                ->where('bank_id', $id)
+                ->findAll();
+        }else{
+            return $this->select('excels.*')
+                ->where('bank_id', $id)
+                ->where('user_id',$user->id)
+                ->findAll();
+        }
+    }
 }
