@@ -202,11 +202,8 @@
       <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a> -->
     <!-- Brand Logo -->
-    <a href="<?php echo url('/') ?>" class="brand-link bg-danger">
-      <img src="<?php echo assets_url('admin') ?>/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light"><?php echo setting('company_name') ?></span>
-    </a>
+    <img src="https://crm.brightworth.net/uploads/logo-brightworth.png">
+   
 
 
     <!-- Sidebar -->

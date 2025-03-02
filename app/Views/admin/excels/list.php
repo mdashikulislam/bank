@@ -38,7 +38,7 @@
                     <div class="card-header border-0 ui-sortable-handle">
                         <h3 class="card-title" data-card-widget="collapse" style="cursor: pointer">
                             <i class="far fa-list-alt"></i>
-                            <?php echo $row->bank_name ?> (<?= $row->created_at ?>) <?php if (logged('role') == '1') { echo '('.$row->user_name.')';} ?>
+                            <?php echo $row->bank_name ?> (<?= $row->created_at ?>) <?php if (logged('role') == '1') { echo '<b style="color:darkred; font-size:20px;">('.$row->user_name.')</b>';} ?>
                         </h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
