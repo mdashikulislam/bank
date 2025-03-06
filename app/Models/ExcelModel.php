@@ -6,7 +6,7 @@ class ExcelModel extends BaseModel
     protected $table      = 'excels';
     protected $primaryKey = 'id';
     protected $returnType     = 'object';
-    protected $allowedFields = ['name','bank_id','header','data'];
+    protected $allowedFields = ['name','bank_id','data','user_id'];
     public function getAllExcels()
     {
         $user = logged();
